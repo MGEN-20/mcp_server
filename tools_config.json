@@ -1,100 +1,88 @@
 {
   "tools": {
-    "list_all_users": {
-      "title": "👥 List All Users",
-      "description": "Retrieve a complete list of all users in the system. This endpoint is useful for administrative purposes, allowing access to all user accounts for management tasks. It supports returning user data such as IDs, names, and emails. Since it can return a significant amount of data, pagination or filtering is recommended to manage the response size effectively.",
+    "get_all_users": {
+      "title": "👥 Get All Users",
+      "description": "Retrieves a complete list of all users registered in the application. This operation requires no parameters and returns a comprehensive list of users in JSON format. The response is useful for populating user directories, administrative dashboards, or analytical processing of user data. Consider implementing pagination in consumer to handle large datasets effectively.",
       "external_api": "https://jsonplaceholder.typicode.com/users",
       "method": "GET",
-      "timeout": 60.0,
-      "large_data_fetch": true
+      "timeout": 60.0
     },
     "create_user": {
-      "title": "➕ Create User",
-      "description": "Allows the creation of a new user in the system by providing necessary user details such as name and email in the request body. The endpoint expects a JSON object conforming to the UserInput schema. It returns a success code upon successful execution. This operation is essential for expanding the user base or registering new accounts.",
+      "title": "✍️ Create User",
+      "description": "Allows the creation of a new user by providing necessary information such as name and email in the request body. The body must follow the specified schema format. This endpoint returns a confirmation upon successful creation and is typically used in user registration forms.",
       "external_api": "https://httpbin.org/post",
       "method": "POST",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
     "get_user_by_id": {
-      "title": "👤 Get User By ID",
-      "description": "Fetches details of a specific user identified by their unique ID. It requires the user's ID as a path parameter and returns complete user information. This is vital for retrieving individual user details for profile displays or personal account management.",
+      "title": "🔍 Get User by ID",
+      "description": "Fetches detailed information about a user by their unique ID. Pass the user 'id' as a path parameter. This endpoint is essential for profile displays, edit user interfaces, or order/account management systems. Returns full user details as JSON.",
       "external_api": "https://jsonplaceholder.typicode.com/users/{id}",
       "method": "GET",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
     "delete_user": {
       "title": "🗑️ Delete User",
-      "description": "Deletes a user identified by their unique ID from the system. This operation requires an ID provided as a path parameter, and it returns a success status code if the deletion is successful. Utilized in scenarios requiring user data management and account removals.",
+      "description": "Physically removes a user from the system using their unique ID. This endpoint requires an 'id' as a path parameter and does not require a request body. It confirms deletion with a 204 status. Useful for user account management, especially in scenarios of account closure or administrative cleanup.",
       "external_api": "https://httpbin.org/delete",
       "method": "DELETE",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
-    "list_all_products": {
-      "title": "📦 List All Products",
-      "description": "Fetches a list of all available products. This endpoint supports returning an array of products complete with details like title, price, and category. It's particularly useful for inventory displays, product catalog listings, and marketing insights. This endpoint can potentially return large datasets, necessitating pagination or filtering mechanisms.",
+    "get_all_products": {
+      "title": "🛒 Get All Products",
+      "description": "Retrieves a list of all products available in the catalog. No parameters are needed. The response includes product details in JSON format, ideal for displaying product listings, inventory checks, or integrating product data into e-commerce front-ends.",
       "external_api": "https://fakestoreapi.com/products",
       "method": "GET",
-      "timeout": 60.0,
-      "large_data_fetch": true
+      "timeout": 60.0
     },
     "create_product": {
-      "title": "➕ Create Product",
-      "description": "Facilitates the addition of new products into the system by allowing submission of product details like title, price, and category in a structured JSON format. It's essential for inventory managers to introduce new products into the catalog.",
+      "title": "✨ Create Product",
+      "description": "Facilitates the addition of a new product into the store's catalog by accepting product data such as title, price, and category. This data follows a strict schema and is submitted via POST. Returns success upon creation, assisting in inventory management and product line expansion.",
       "external_api": "https://httpbin.org/post",
       "method": "POST",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
     "get_product_by_id": {
-      "title": "🔍 Get Product By ID",
-      "description": "Retrieves details of a specific product based on the provided product ID path parameter. This endpoint is useful for viewing or editing product properties by staff or customers.",
+      "title": "🔍 Get Product by ID",
+      "description": "Provides detailed information on a specific product, identified by its unique ID. Use the 'id' as a path parameter to retrieve product specifics. This is crucial for product detail pages, order processing, or inventory management applications.",
       "external_api": "https://fakestoreapi.com/products/{id}",
       "method": "GET",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
-    "list_all_orders": {
-      "title": "📜 List All Orders",
-      "description": "Returns a list of all orders placed in the system, including details like order ID, user ID, product IDs, and status. Typically used by customer service teams to track and manage orders. The potentially large dataset makes it advisable to integrate pagination mechanisms.",
+    "get_all_orders": {
+      "title": "📦 Get All Orders",
+      "description": "Returns a list of all orders placed within the system. Useful for order management, auditing, or generating sales reports. The returned data includes order details formatted in JSON. No parameters are needed for this request.",
       "external_api": "https://mockapi.io/orders",
       "method": "GET",
-      "timeout": 60.0,
-      "large_data_fetch": true
+      "timeout": 60.0
     },
     "create_order": {
-      "title": "➕ Create Order",
-      "description": "Allows the creation of a new order by submitting order details such as user ID and product IDs as a JSON object. This is crucial for processing customer purchases within the e-commerce platform.",
-      "external_api": "https://httpbin.org/post",
+      "title": "📝 Create Order",
+      "description": "Enables the creation of a new order by providing user ID and a list of product IDs. The request body must comply with a specified order schema. Successful requests return an order confirmation and detail, applicable in the order processing workflows.",
+      "external_api": "https://mockapi.io/orders",
       "method": "POST",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
     "get_order_by_id": {
-      "title": "🔍 Get Order By ID",
-      "description": "Provides detailed information about a specific order based on a unique order ID, necessary for customer support inquiries or order tracking purposes.",
+      "title": "🔍 Get Order by ID",
+      "description": "Fetches the details of an order with a specified order ID. This endpoint is crucial for tracking order status, processing returns, or customer service inquiries, returning comprehensive order information as a JSON object.",
       "external_api": "https://mockapi.io/orders/{id}",
       "method": "GET",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
     "user_login": {
       "title": "🔐 User Login",
-      "description": "Handles user authentication by verifying login credentials (email and password) through a POST request. Upon success, returns a JSON object containing a security token and user details. Use cases include allowing users to access the system functionality that requires authentication.",
-      "external_api": "https://httpbin.org/post",
+      "description": "Handles user authentication by accepting an email and password in the request body. A successful login returns a JWT token and user details, facilitating secure access to protected resources. This endpoint is essential for applications requiring authenticated user actions.",
+      "external_api": "https://reqres.in/api/login",
       "method": "POST",
-      "timeout": 30.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     },
     "health_check": {
-      "title": "🚦 Health Check",
-      "description": "Checks the health status of the server, returning a status message and timestamp. Crucial for ensuring service availability and system reliability checks.",
+      "title": "🩺 Health Check",
+      "description": "Provides a simple health check to confirm that the service is operational. Returns a status and timestamp, ideal for monitoring tools or uptime tracking solutions to ensure service availability.",
       "external_api": "https://httpstat.us/200",
       "method": "GET",
-      "timeout": 5.0,
-      "large_data_fetch": false
+      "timeout": 30.0
     }
   },
   "server": {
