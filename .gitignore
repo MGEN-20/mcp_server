@@ -1,0 +1,5 @@
+.env
+
+agent/__pycache__
+agent/chains/__pycache__
+agent/nodes/__pycache__
