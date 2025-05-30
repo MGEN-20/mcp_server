@@ -1,14 +1,26 @@
 import json
+import sys
 from agent.graph import graph
 from agent.state import GraphState
+from agent.utils.swagger_fetcher import sync_get_swagger_content
 
 
-def test_agent():
+def test_agent(source: str = None):
     """Test the LangGraph agent with config generator and reflection"""
     
-    # Load swagger content
-    with open("swagger_simple.yaml", "r") as f:
-        swagger_content = f.read()
+    # Determine swagger source
+    if source is None:
+        if len(sys.argv) > 1:
+            source = sys.argv[1]
+        else:
+            source = "swagger_simple.yaml"  # default file
+    
+    try:
+        # Load swagger content from file or URL
+        swagger_content = sync_get_swagger_content(source)
+    except ValueError as e:
+        print(f"❌ Error loading swagger: {e}")
+        return None
     
     # Initialize state for the graph
     initial_state: GraphState = {
@@ -55,5 +67,15 @@ def test_agent():
 
 
 if __name__ == "__main__":
+    print("🔧 MCP Swagger Agent")
+    print("Usage:")
+    print("  python test_agent.py                           "
+          "# Use default swagger_simple.yaml")
+    print("  python test_agent.py path/to/swagger.yaml      "
+          "# Use local file")
+    print("  python test_agent.py https://example.com/api   "
+          "# Fetch from URL")
+    print()
+    
     test_agent()
 

@@ -6,6 +6,9 @@ langgraph>=0.0.40
 pydantic>=2.0.0
 PyYAML>=6.0
 
+# HTTP requests
+requests>=2.31.0
+
 # Standard library extensions (included in Python but good to specify)
 # pathlib - built-in
 # typing - built-in  
