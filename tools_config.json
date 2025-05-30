@@ -2,87 +2,87 @@
   "tools": {
     "get_all_users": {
       "title": "👥 Get All Users",
-      "description": "Retrieves a complete list of all users registered in the application. This operation requires no parameters and returns a comprehensive list of users in JSON format. The response is useful for populating user directories, administrative dashboards, or analytical processing of user data. Consider implementing pagination in consumer to handle large datasets effectively.",
+      "description": "Retrieves a list of all users. Useful for user management or dashboards where administrators need an overview of users. The response contains an array of user objects. Fails with 404 if the server cannot be reached or returns empty if no users are available.",
       "external_api": "https://jsonplaceholder.typicode.com/users",
       "method": "GET",
       "timeout": 60.0
     },
     "create_user": {
       "title": "✍️ Create User",
-      "description": "Allows the creation of a new user by providing necessary information such as name and email in the request body. The body must follow the specified schema format. This endpoint returns a confirmation upon successful creation and is typically used in user registration forms.",
+      "description": "Creates a new user in the system. Requires name and email in the request body. Useful for user registration or adding new staff accounts. A response of 201 indicates success, while other codes may indicate validation errors or server issues.",
       "external_api": "https://httpbin.org/post",
       "method": "POST",
       "timeout": 30.0
     },
     "get_user_by_id": {
-      "title": "🔍 Get User by ID",
-      "description": "Fetches detailed information about a user by their unique ID. Pass the user 'id' as a path parameter. This endpoint is essential for profile displays, edit user interfaces, or order/account management systems. Returns full user details as JSON.",
+      "title": "🧐 Get User By ID",
+      "description": "Fetches details for a specific user identified by their unique ID. Essential for rendering detailed user profiles. Returns user details if found, otherwise 404 if the user ID does not exist.",
       "external_api": "https://jsonplaceholder.typicode.com/users/{id}",
       "method": "GET",
       "timeout": 30.0
     },
     "delete_user": {
-      "title": "🗑️ Delete User",
-      "description": "Physically removes a user from the system using their unique ID. This endpoint requires an 'id' as a path parameter and does not require a request body. It confirms deletion with a 204 status. Useful for user account management, especially in scenarios of account closure or administrative cleanup.",
-      "external_api": "https://httpbin.org/delete",
+      "title": "❌ Delete User",
+      "description": "Deletes a user specified by ID. This is an irreversible operation ideal for account removal requests or cleanup tasks. Successful removal is indicated by a 204 response, while failures may return 404 if the user ID is not found.",
+      "external_api": "https://jsonplaceholder.typicode.com/users/{id}",
       "method": "DELETE",
       "timeout": 30.0
     },
     "get_all_products": {
-      "title": "🛒 Get All Products",
-      "description": "Retrieves a list of all products available in the catalog. No parameters are needed. The response includes product details in JSON format, ideal for displaying product listings, inventory checks, or integrating product data into e-commerce front-ends.",
+      "title": "🛍️ Get All Products",
+      "description": "Fetches a list of all available products in the inventory. Useful for displaying products in shopping interfaces or inventory management. The response comprises an array of product objects. Service unavailability triggers a 404 status.",
       "external_api": "https://fakestoreapi.com/products",
       "method": "GET",
       "timeout": 60.0
     },
     "create_product": {
-      "title": "✨ Create Product",
-      "description": "Facilitates the addition of a new product into the store's catalog by accepting product data such as title, price, and category. This data follows a strict schema and is submitted via POST. Returns success upon creation, assisting in inventory management and product line expansion.",
-      "external_api": "https://httpbin.org/post",
+      "title": "➕ Create Product",
+      "description": "Adds a new product to the inventory. Requires a structured input of title, price, and category. Ideal for expanding product offerings or content management systems. On creation success, a 201 status is returned, while errors might indicate validation issues.",
+      "external_api": "https://dummyjson.com/products/add",
       "method": "POST",
       "timeout": 30.0
     },
     "get_product_by_id": {
-      "title": "🔍 Get Product by ID",
-      "description": "Provides detailed information on a specific product, identified by its unique ID. Use the 'id' as a path parameter to retrieve product specifics. This is crucial for product detail pages, order processing, or inventory management applications.",
+      "title": "🔍 Get Product By ID",
+      "description": "Retrieves detailed information about a specific product using its ID. Useful for product detail pages in e-commerce applications. If a product exists, product details are returned, otherwise a 404 is given if no such product is found.",
       "external_api": "https://fakestoreapi.com/products/{id}",
       "method": "GET",
       "timeout": 30.0
     },
     "get_all_orders": {
       "title": "📦 Get All Orders",
-      "description": "Returns a list of all orders placed within the system. Useful for order management, auditing, or generating sales reports. The returned data includes order details formatted in JSON. No parameters are needed for this request.",
+      "description": "Lists all orders placed in the system. This endpoint is valuable for tracking sales, processing dispatches, and generating sales reports. Returns an array of orders or empty if none are available. Can return a 404 if unavailable.",
       "external_api": "https://mockapi.io/orders",
       "method": "GET",
       "timeout": 60.0
     },
     "create_order": {
-      "title": "📝 Create Order",
-      "description": "Enables the creation of a new order by providing user ID and a list of product IDs. The request body must comply with a specified order schema. Successful requests return an order confirmation and detail, applicable in the order processing workflows.",
+      "title": "🚚 Create Order",
+      "description": "Places a new order with defined user and product context. It supports bulk processing and requires user_id and products list. A successful 201 response indicates order acceptance. Possible errors include validation failures.",
       "external_api": "https://mockapi.io/orders",
       "method": "POST",
       "timeout": 30.0
     },
     "get_order_by_id": {
-      "title": "🔍 Get Order by ID",
-      "description": "Fetches the details of an order with a specified order ID. This endpoint is crucial for tracking order status, processing returns, or customer service inquiries, returning comprehensive order information as a JSON object.",
+      "title": "📃 Get Order By ID",
+      "description": "Fetches order specifics using order ID. This functionality is essential for viewing purchase details and order status. A 200 response includes order details, while a 404 indicates no matching order.",
       "external_api": "https://mockapi.io/orders/{id}",
       "method": "GET",
       "timeout": 30.0
     },
     "user_login": {
-      "title": "🔐 User Login",
-      "description": "Handles user authentication by accepting an email and password in the request body. A successful login returns a JWT token and user details, facilitating secure access to protected resources. This endpoint is essential for applications requiring authenticated user actions.",
+      "title": "🔑 User Login",
+      "description": "Authenticates a user and issues a token upon success. This endpoint is critical for security and session management in client applications. Expects email and password, returning a user object and token. Errors may include authentication failure or server errors.",
       "external_api": "https://reqres.in/api/login",
       "method": "POST",
       "timeout": 30.0
     },
     "health_check": {
       "title": "🩺 Health Check",
-      "description": "Provides a simple health check to confirm that the service is operational. Returns a status and timestamp, ideal for monitoring tools or uptime tracking solutions to ensure service availability.",
+      "description": "Checks the health status of the server, primarily used for monitoring and alert systems. Provides a simple 'ok' status and timestamp upon successful responses. May fail with 503 if service is down.",
       "external_api": "https://httpstat.us/200",
       "method": "GET",
-      "timeout": 30.0
+      "timeout": 10.0
     }
   },
   "server": {
