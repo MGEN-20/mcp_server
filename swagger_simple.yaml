@@ -2,15 +2,11 @@ openapi: 3.0.0
 info:
   title: Simple E-Commerce API
   version: "1.0.0"
-  description: A clean and simple e-commerce API for basic operations
+  description: A clean and simple e-commerce API
 
 servers:
   - url: https://api.myshop.com/v1
     description: Production
-  - url: https://demo-api.myshop.com/v1
-    description: Demo server
-  - url: https://jsonplaceholder.typicode.com
-    description: Mock API for testing
 
 paths:
   /users:
@@ -26,9 +22,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
-      servers:
-        - url: https://jsonplaceholder.typicode.com/users
-        - url: https://reqres.in/api/users
     post:
       summary: Create user
       tags: [Users]
@@ -41,9 +34,6 @@ paths:
       responses:
         "201":
           description: User created
-      servers:
-        - url: https://httpbin.org/post
-        - url: https://jsonplaceholder.typicode.com/users
 
   /users/{id}:
     get:
@@ -62,24 +52,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-      servers:
-        - url: https://jsonplaceholder.typicode.com/users/{id}
-        - url: https://reqres.in/api/users/{id}
-    delete:
-      summary: Delete user
-      tags: [Users]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "204":
-          description: User deleted
-      servers:
-        - url: https://httpbin.org/delete
-        - url: https://jsonplaceholder.typicode.com/users/{id}
 
   /products:
     get:
@@ -94,9 +66,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Product"
-      servers:
-        - url: https://fakestoreapi.com/products
-        - url: https://dummyjson.com/products
     post:
       summary: Create product
       tags: [Products]
@@ -109,9 +78,6 @@ paths:
       responses:
         "201":
           description: Product created
-      servers:
-        - url: https://httpbin.org/post
-        - url: https://dummyjson.com/products/add
 
   /products/{id}:
     get:
@@ -130,26 +96,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
-      servers:
-        - url: https://fakestoreapi.com/products/{id}
-        - url: https://dummyjson.com/products/{id}
 
   /orders:
-    get:
-      summary: Get all orders
-      tags: [Orders]
-      responses:
-        "200":
-          description: List of orders
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Order"
-      servers:
-        - url: https://httpbin.org/get
-        - url: https://mockapi.io/orders
     post:
       summary: Create order
       tags: [Orders]
@@ -162,78 +110,6 @@ paths:
       responses:
         "201":
           description: Order created
-      servers:
-        - url: https://httpbin.org/post
-        - url: https://mockapi.io/orders
-
-  /orders/{id}:
-    get:
-      summary: Get order by ID
-      tags: [Orders]
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Order details
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-      servers:
-        - url: https://httpbin.org/get
-        - url: https://mockapi.io/orders/{id}
-
-  /auth/login:
-    post:
-      summary: User login
-      tags: [Auth]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LoginInput"
-      responses:
-        "200":
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                  user:
-                    $ref: "#/components/schemas/User"
-      servers:
-        - url: https://httpbin.org/post
-        - url: https://reqres.in/api/login
-
-  /health:
-    get:
-      summary: Health check
-      tags: [System]
-      responses:
-        "200":
-          description: Service is healthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: "ok"
-                  timestamp:
-                    type: string
-                    example: "2024-01-15T10:30:00Z"
-      servers:
-        - url: https://httpstat.us/200
-        - url: https://httpbin.org/get
 
 components:
   schemas:
@@ -273,13 +149,10 @@ components:
         price:
           type: number
           example: 999.99
-        category:
-          type: string
-          example: "electronics"
 
     ProductInput:
       type: object
-      required: [title, price, category]
+      required: [title, price]
       properties:
         title:
           type: string
@@ -287,30 +160,6 @@ components:
         price:
           type: number
           example: 999.99
-        category:
-          type: string
-          example: "electronics"
-
-    Order:
-      type: object
-      properties:
-        id:
-          type: string
-          example: "order_123"
-        user_id:
-          type: integer
-          example: 1
-        products:
-          type: array
-          items:
-            type: integer
-          example: [1, 2, 3]
-        total:
-          type: number
-          example: 299.99
-        status:
-          type: string
-          example: "pending"
 
     OrderInput:
       type: object
@@ -323,15 +172,4 @@ components:
           type: array
           items:
             type: integer
-          example: [1, 2, 3]
-
-    LoginInput:
-      type: object
-      required: [email, password]
-      properties:
-        email:
-          type: string
-          example: "eve.holt@reqres.in"
-        password:
-          type: string
-          example: "cityslicka" 
+          example: [1, 2, 3] 

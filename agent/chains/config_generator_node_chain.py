@@ -2,12 +2,13 @@ import openai
 import os
 import yaml
 from pathlib import Path
+from string import Template
 
 from agent.utils.models import ToolExtractionResult
 
 
 class ConfigGeneratorChain:
-    def __init__(self, model: str = "gpt-4o"):
+    def __init__(self, model: str = "o3-mini-2025-01-31"):
         self.client = openai.Client(api_key=os.getenv("OPENAI_API_KEY"))
         self.model = model
         self._load_prompts()
@@ -17,7 +18,8 @@ class ConfigGeneratorChain:
         prompts_path = Path(__file__).parent.parent / "data" / "prompts.yaml"
         with open(prompts_path, 'r') as f:
             prompts = yaml.safe_load(f)
-        self.system_prompt = prompts["config_generator"]["system_prompt"]
+        prompt_text = prompts["config_generator"]["system_prompt"]
+        self.system_prompt_template = Template(prompt_text)
         
     def invoke(self, swagger_content: str, 
                reflection_reason: str = None,
@@ -38,8 +40,8 @@ class ConfigGeneratorChain:
                 f"{existing_tool_config}"
             )
         
-        # Format the prompt with variables
-        prompt = self.system_prompt.format(
+        # Format the prompt with variables using Template
+        prompt = self.system_prompt_template.substitute(
             reflection_feedback=reflection_feedback,
             existing_config=existing_config,
             swagger_content=swagger_content

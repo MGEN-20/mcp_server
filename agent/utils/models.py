@@ -9,12 +9,6 @@ class ToolExtractionResult(BaseModel):
         description="JSON configuration for MCP tools and server "
                     "with large_data_fetch flags"
     )
-    documentation: str = Field(
-        description="Description of the generated server"
-    )
-    requirements: str = Field(
-        description="requirements.txt contents for deploying the server"
-    )
 
 
 class SeniorResult(BaseModel):

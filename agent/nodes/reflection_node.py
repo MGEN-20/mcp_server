@@ -13,11 +13,9 @@ def reflection_node(state: GraphState) -> GraphState:
     # Get required data from state
     swagger_content = state.get("swagger_content", "")
     tool_config = state.get("tool_config", "")
-    documentation = state.get("documentation", "")
     
     logger.info(f"📄 Swagger content length: {len(swagger_content)} chars")
     logger.info(f"🔧 Tool config length: {len(tool_config)} chars")
-    logger.info(f"📚 Documentation length: {len(documentation)} chars")
     
     if not swagger_content or not tool_config:
         logger.error("❌ Missing swagger_content or tool_config in state")
@@ -26,7 +24,7 @@ def reflection_node(state: GraphState) -> GraphState:
     # Call the reflection chain
     logger.info("🤖 Calling LLM for validation...")
     result = reflection_chain.invoke(
-        swagger_content, tool_config, documentation
+        swagger_content, tool_config
     )
     
     logger.info("✅ Validation completed")

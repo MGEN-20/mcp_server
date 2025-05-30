@@ -44,8 +44,6 @@ def config_generator_node(state: GraphState) -> GraphState:
     state.update({
         "analysis": result.analysis,
         "tool_config": result.tool_config,
-        "documentation": result.documentation,
-        "requirements": result.requirements,
     })
     
     logger.info("🎯 Config generation completed successfully")

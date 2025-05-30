@@ -19,8 +19,7 @@ class ReflectionChain:
             prompts = yaml.safe_load(f)
         self.system_prompt = prompts["reflection"]["system_prompt"]
         
-    def invoke(self, swagger_content: str, tool_config: str, 
-               documentation: str) -> SeniorResult:
+    def invoke(self, swagger_content: str, tool_config: str) -> SeniorResult:
         """Validate generated config against original Swagger spec"""
         
         prompt = f"""{self.system_prompt}
@@ -30,9 +29,6 @@ Original Swagger spec:
 
 Generated tool config:
 {tool_config}
-
-Generated documentation:
-{documentation}
 """
         
         # Call OpenAI with structured output
