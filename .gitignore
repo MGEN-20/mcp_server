@@ -3,3 +3,34 @@
 agent/__pycache__
 agent/chains/__pycache__
 agent/nodes/__pycache__
+
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+venv2/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+
+# Environment variables
+.env
+
+# Saved graph
+app/agents/old
+
+# Logs
+app.log
+
+# Lambda packages
+lambdas/*/package/
+lambdas/*/node_modules/__pycache__/
