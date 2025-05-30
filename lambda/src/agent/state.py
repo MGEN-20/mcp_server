@@ -14,4 +14,4 @@ class GraphState(TypedDict):
     # Reflection results
     is_everything_correct: Optional[bool]
     reflection_reason: Optional[str]
-    reflection_score: Optional[int]
+    reflection_score: Optional[int] 

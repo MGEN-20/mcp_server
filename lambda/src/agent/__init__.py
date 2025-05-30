@@ -1,0 +1,1 @@
+# Agent package for MCP tool configuration generation 

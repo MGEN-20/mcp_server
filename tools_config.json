@@ -1,50 +1,50 @@
 {
   "tools": {
     "get_all_users": {
-      "title": "👥 Get All Users",
-      "description": "Retrieves the complete list of users registered in the system. This endpoint does not require any parameters. The response is an array of user objects (including id, name, and email). Use this endpoint for admin dashboards, user management interfaces, or audit logs. Common errors include server failures or if the data cannot be retrieved, an HTTP error code may be returned.",
+      "title": "🧑‍🤝‍👩 Get All Users",
+      "description": "Retrieves a complete list of all users from the e-commerce platform. No parameters are required. The endpoint returns an array of user objects including id, name, and email. Use this endpoint for admin dashboards or user management screens. Common errors include server failures and data retrieval issues.",
       "external_api": "https://api.myshop.com/v1/users",
       "method": "GET",
       "timeout": 30.0
     },
     "create_user": {
-      "title": "🆕 Create User",
-      "description": "Creates a new user in the system. The required payload includes name and email. The endpoint expects a valid JSON body conforming to the UserInput schema. It returns a status code 201 when the user is successfully created. Potential errors include validation errors (e.g., missing required fields) or server errors.",
+      "title": "➕ Create User",
+      "description": "Creates a new user in the system. Requires a JSON body with user details such as name and email. Returns a 201 status on successful creation. Use this endpoint when registering new users. Error handling includes validation errors and missing required fields.",
       "external_api": "https://api.myshop.com/v1/users",
       "method": "POST",
       "timeout": 30.0
     },
     "get_user_by_id": {
       "title": "🔍 Get User by ID",
-      "description": "Fetches the details of a single user specified by the user ID provided in the path parameter. The response consists of the user's detailed information such as id, name, and email. Use this endpoint when user-specific information is needed. A 404 error is returned if the user with the specified ID does not exist.",
+      "description": "Retrieves detailed information for a specific user identified by their ID. The user ID must be provided as a path parameter. Returns a user object with properties like id, name, and email. Use this endpoint for user profile pages. Common errors include a 404 if the user is not found.",
       "external_api": "https://api.myshop.com/v1/users/{id}",
       "method": "GET",
       "timeout": 30.0
     },
     "get_all_products": {
       "title": "📦 Get All Products",
-      "description": "Retrieves a list of all products available in the e-commerce store. This endpoint does not require any parameters. The response contains an array of product objects that include details such as id, title, and price. It is typically used for catalog displays and inventory management. Error scenarios include server issues or problems fetching product data.",
+      "description": "Fetches a list of all available products in the store. No parameters are required. Returns an array of product objects containing details such as id, title, and price. Use this for populating product listings or administrative product management. Errors may occur if the data retrieval fails.",
       "external_api": "https://api.myshop.com/v1/products",
       "method": "GET",
       "timeout": 30.0
     },
     "create_product": {
-      "title": "🆕 Create Product",
-      "description": "Creates a new product entry in the system. The endpoint requires a JSON payload containing the product title and price, conforming to the ProductInput schema. A successful creation returns a 201 status code. Validation errors or server issues may result in error responses.",
+      "title": "➕ Create Product",
+      "description": "Creates a new product by accepting a JSON body with product details (title and price). Returns a 201 status on success. This endpoint is ideal for adding new products to your catalog. Common issues include missing data fields and failed validations.",
       "external_api": "https://api.myshop.com/v1/products",
       "method": "POST",
       "timeout": 30.0
     },
     "get_product_by_id": {
       "title": "🔍 Get Product by ID",
-      "description": "Fetches detailed information for a single product using its ID as a path parameter. The returned data follows the Product schema with properties such as id, title, and price. This endpoint is useful for product detail pages and inventory lookups. Common errors include 404 if the product is not found.",
+      "description": "Retrieves details of a specific product using its unique ID provided in the path. Returns a product object with properties like id, title, and price. Use this endpoint to display product details on a product page. A 404 error is returned if the product is not found.",
       "external_api": "https://api.myshop.com/v1/products/{id}",
       "method": "GET",
       "timeout": 30.0
     },
     "create_order": {
       "title": "🛒 Create Order",
-      "description": "Creates a new order based on the provided order input, which must include a user ID and a list of product IDs. The endpoint expects a JSON payload conforming to the OrderInput schema. A successful operation returns a 201 status code. Errors might include validation failures or issues during order processing.",
+      "description": "Creates a new order using a JSON body that includes a user_id and a list of product IDs. Returns a 201 status and order confirmation details upon successful order creation. Use this endpoint during the checkout process. Errors can include invalid user IDs, unavailable products, or missing required fields.",
       "external_api": "https://api.myshop.com/v1/orders",
       "method": "POST",
       "timeout": 30.0

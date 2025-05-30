@@ -34,3 +34,4 @@ app.log
 # Lambda packages
 lambdas/*/package/
 lambdas/*/node_modules/__pycache__/
+lambda/package/

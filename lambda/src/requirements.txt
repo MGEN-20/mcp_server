@@ -1,6 +1,19 @@
+# Core AI and LLM dependencies
 openai>=1.0.0
 langgraph>=0.0.40
 
 # Data validation and parsing
 pydantic>=2.0.0
 PyYAML>=6.0
+# Standard library extensions (included in Python but good to specify)
+# pathlib - built-in
+# typing - built-in  
+# json - built-in
+# os - built-in
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# black>=23.0.0
+# isort>=5.0.0
+# flake8>=6.0.0
+# mypy>=1.0.0 

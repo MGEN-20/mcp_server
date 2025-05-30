@@ -1,123 +1,114 @@
 import json
 import os
-import sys
-
-# Add the src directory to Python path for local testing
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)
-
+import logging
 from agent.graph import graph
 from agent.state import GraphState
 
-
-def run_agent(swagger_content: str):
-    """Run the LangGraph agent with config generator and reflection"""
-    
-    # Initialize state for the graph
-    initial_state: GraphState = {
-        "swagger_content": swagger_content,
-        "analysis": None,
-        "tool_config": None,
-        "documentation": None,
-        "requirements": None,
-        "is_everything_correct": None,
-        "reflection_reason": None,
-        "reflection_score": None,
-    }
-    
-    print("🚀 Starting LangGraph agent...")
-    
-    # Invoke the graph
-    final_state = graph.invoke(initial_state)
-    
-    print("✅ Agent completed!")
-    print(f"🎯 Everything correct: {final_state.get('is_everything_correct')}")
-    print(f"📈 Score: {final_state.get('reflection_score')}")
-    print(f"💭 Reason: {final_state.get('reflection_reason')}")
-    
-    # Show analysis if available
-    analysis = final_state.get('analysis', '')
-    if analysis:
-        print(f"📊 Analysis: {analysis[:200]}...")
-    
-    # Show tool config if available
-    tool_config = final_state.get('tool_config', '')
-    if tool_config:
-        print(f"🔧 Tool config length: {len(tool_config)} characters")
-    
-    return final_state
+# Configure logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def lambda_handler(event, context):
-    """AWS Lambda handler function"""
-    print("Lambda handler started")
+    """
+    AWS Lambda handler that processes Swagger content and returns MCP tool configuration
+    
+    Expected input:
+    {
+        "swagger_content": "openapi: 3.0.0\n..."
+    }
+    
+    Returns:
+    {
+        "statusCode": 200,
+        "body": {
+            "tool_config": {...},
+            "analysis": "...",
+            "score": 95,
+            "is_everything_correct": true
+        }
+    }
+    """
     
     try:
-        # Extract swagger content from event
-        swagger_content = None
+        logger.info("🚀 Lambda function started")
         
-        # Handle API Gateway POST requests with JSON body
-        if event.get('body'):
-            try:
-                body = json.loads(event.get('body'))
-                swagger_content = body.get('swagger_content')
-            except json.JSONDecodeError as e:
-                print(f"Error parsing request body: {str(e)}")
-                return {
-                    'statusCode': 400,
-                    'body': json.dumps({'error': 'Invalid JSON in request body'})
-                }
+        # Parse input
+        if isinstance(event.get('body'), str):
+            body = json.loads(event['body'])
+        else:
+            body = event.get('body', event)
         
-        # If swagger_content wasn't in the body, check other locations
-        if not swagger_content:
-            swagger_content = event.get('swagger_content')
-        
+        swagger_content = body.get('swagger_content')
         if not swagger_content:
             return {
                 'statusCode': 400,
-                'body': json.dumps({'error': "Missing 'swagger_content' parameter"})
+                'body': json.dumps({
+                    'error': 'Missing swagger_content in request body'
+                })
             }
         
-        print(f"Processing swagger content (length: {len(swagger_content)} chars)")
+        logger.info(f"📄 Received Swagger content: {len(swagger_content)} chars")
         
-        # Run the agent
-        final_state = run_agent(swagger_content)
-        
-        # Prepare response
-        response_data = {
-            'success': True,
-            'is_everything_correct': final_state.get('is_everything_correct'),
-            'reflection_score': final_state.get('reflection_score'),
-            'reflection_reason': final_state.get('reflection_reason'),
-            'analysis': final_state.get('analysis'),
-            'tool_config': final_state.get('tool_config'),
-            'documentation': final_state.get('documentation'),
-            'requirements': final_state.get('requirements')
+        # Initialize state for the graph
+        initial_state: GraphState = {
+            "swagger_content": swagger_content,
+            "analysis": None,
+            "tool_config": None,
+            "documentation": None,
+            "requirements": None,
+            "is_everything_correct": None,
+            "reflection_reason": None,
+            "reflection_score": None,
         }
         
-        # Parse tool_config as JSON if it's a string
-        tool_config = final_state.get('tool_config')
-        if tool_config and isinstance(tool_config, str):
-            try:
-                response_data['tool_config'] = json.loads(tool_config)
-            except json.JSONDecodeError:
-                # Keep as string if it's not valid JSON
-                pass
+        logger.info("🤖 Starting LangGraph agent...")
+        
+        # Invoke the graph
+        final_state = graph.invoke(initial_state)
+        
+        logger.info("✅ Agent completed!")
+        logger.info(f"🎯 Everything correct: {final_state.get('is_everything_correct')}")
+        logger.info(f"📈 Score: {final_state.get('reflection_score')}")
+        
+        # Parse tool config JSON
+        tool_config_str = final_state.get('tool_config', '{}')
+        try:
+            tool_config_json = json.loads(tool_config_str)
+        except json.JSONDecodeError as e:
+            logger.error(f"❌ Failed to parse tool config as JSON: {e}")
+            tool_config_json = {"error": "Invalid JSON generated"}
+        
+        # Prepare response
+        response_body = {
+            "tool_config": tool_config_json,
+            "analysis": final_state.get('analysis', ''),
+            "score": final_state.get('reflection_score', 0),
+            "is_everything_correct": final_state.get('is_everything_correct', False),
+            "reflection_reason": final_state.get('reflection_reason', '')
+        }
+        
+        logger.info("💾 Returning successful response")
         
         return {
             'statusCode': 200,
-            'body': json.dumps(response_data, ensure_ascii=False),
             'headers': {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps(response_body, indent=2)
         }
         
     except Exception as e:
-        print(f"Error in Lambda handler: {str(e)}")
+        logger.error(f"❌ Lambda function error: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
             'body': json.dumps({
                 'error': str(e),
-                'success': False
+                'message': 'Internal server error'
             })
-        }
+        } 

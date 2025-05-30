@@ -1,0 +1,117 @@
+{
+  "tools": {
+    "get_all_users": {
+      "title": "Get All Users",
+      "description": "Fetches a list of all registered users in the system. This is useful for admin panels and user management dashboards. Returns an array of users with id, name, and email. 404 error if the endpoint is not reachable.",
+      "external_api": [
+        "https://jsonplaceholder.typicode.com/users",
+        "https://reqres.in/api/users"
+      ],
+      "method": "GET",
+      "timeout": 30.0
+    },
+    "create_user": {
+      "title": "Create User",
+      "description": "Creates a new user by providing user details such as name and email. Useful for onboarding new users. Upon success, returns a 201 status code signifying user was created. Errors may include malformed input or server issues.",
+      "external_api": [
+        "https://jsonplaceholder.typicode.com/users",
+        "https://httpbin.org/post"
+      ],
+      "method": "POST",
+      "timeout": 30.0
+    },
+    "get_user_by_id": {
+      "title": "Get User By ID",
+      "description": "Retrieves details of a user by their unique ID. Useful for displaying user profiles or account management interfaces. Returns user object on success. 404 if user not found.",
+      "external_api": "https://jsonplaceholder.typicode.com/users/{id}",
+      "method": "GET",
+      "timeout": 30.0
+    },
+    "delete_user": {
+      "title": "Delete User",
+      "description": "Deletes a user specified by their unique ID. Useful for account deletion or cleanup tasks. Returns 204 on successful deletion. Errors include not found (404) or permission issues.",
+      "external_api": "https://jsonplaceholder.typicode.com/users/{id}",
+      "method": "DELETE",
+      "timeout": 30.0
+    },
+    "get_all_products": {
+      "title": "Get All Products",
+      "description": "Fetches a list of all available products in the store. Useful for product listings, catalogs, or inventory checks. Returns a list of products each having id, title, price, and category. Now includes correct URL from the Swagger spec.",
+      "external_api": "https://fakestoreapi.com/products",
+      "method": "GET",
+      "timeout": 60.0
+    },
+    "create_product": {
+      "title": "Create Product",
+      "description": "Adds a new product to the store inventory. Requires title, price, and category. Useful for backend inventory management and new product entries. Returns 201 upon successful creation.",
+      "external_api": [
+        "https://httpbin.org/post",
+        "https://dummyjson.com/products/add"
+      ],
+      "method": "POST",
+      "timeout": 30.0
+    },
+    "get_product_by_id": {
+      "title": "Get Product By ID",
+      "description": "Fetches details of a specific product using its ID. Useful for product detail pages or inventory systems. Returns details such as title, price, and category. URL corrected from Swagger spec.",
+      "external_api": [
+        "https://dummyjson.com/products/{id}",
+        "https://fakestoreapi.com/products/{id}"
+      ],
+      "method": "GET",
+      "timeout": 30.0
+    },
+    "get_all_orders": {
+      "title": "Get All Orders",
+      "description": "Retrieves a list of all customer orders. Useful for order management and tracking systems. Can return large data sets, so handle with caution.",
+      "external_api": [
+        "https://mockapi.io/orders",
+        "https://httpbin.org/get"
+      ],
+      "method": "GET",
+      "timeout": 60.0
+    },
+    "create_order": {
+      "title": "Create Order",
+      "description": "Allows placing an order with user ID and a list of product IDs. Important for checkout processes or customer purchases. Returns 201 upon successful order creation.",
+      "external_api": [
+        "https://httpbin.org/post",
+        "https://mockapi.io/orders"
+      ],
+      "method": "POST",
+      "timeout": 30.0
+    },
+    "get_order_by_id": {
+      "title": "Get Order By ID",
+      "description": "Fetches order details by its unique order ID. Useful for order status checks or customer service. Returns order specifications. 404 if order not found.",
+      "external_api": [
+        "https://mockapi.io/orders/{id}",
+        "https://httpbin.org/get"
+      ],
+      "method": "GET",
+      "timeout": 30.0
+    },
+    "user_login": {
+      "title": "User Login",
+      "description": "Authenticates a user with their email and password, returning a token and user information upon successful login. Essential for secure user access to the system.",
+      "external_api": "https://reqres.in/api/login",
+      "method": "POST",
+      "timeout": 30.0
+    },
+    "health_check": {
+      "title": "Service Health Check",
+      "description": "Checks the health status of the service. Useful for monitoring and maintaining service uptime. Returns 'ok' status when the service is healthy.",
+      "external_api": [
+        "https://httpstat.us/200",
+        "https://httpbin.org/get"
+      ],
+      "method": "GET",
+      "timeout": 5.0
+    }
+  },
+  "server": {
+    "title": "Autogenerated MCP FastAPI Server",
+    "host": "0.0.0.0",
+    "port": 8000
+  }
+}
